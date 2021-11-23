@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ contact.firstName }} {{ contact.lastName }}{% endblock %}
+
+{% block body %}
+<div class="row">
+
+	<div class="col-lg-6 mb-3">
+        <label for="inputFirstName">Prénom</label>
+        <input type="text" class="form-control" id="inputFirstName" value="{{ contact.firstName }}" disabled="">
+    </div>
+
+	<div class="col-lg-6 mb-3">
+        <label for="inputLastName">Nom de famille</label>
+        <input type="text" class="form-control" id="inputLastName" value="{{ contact.lastName }}" disabled="">
+    </div>
+
+	<div class="col-lg-6 mb-3">
+        <label for="inputEmail">Adresse mail</label>
+        <input type="text" class="form-control" id="inputEmail" value="{{ contact.email }}" disabled="">
+    </div>
+
+	<div class="col-lg-6 mb-3">
+        <label for="inputPriority">Priorité</label>
+        <input type="text" class="form-control" id="inputPriority" aria-describedby="prioHelp" value="{{ contact.priority }}" disabled="">
+        <small id="prioHelp" class="form-text text-muted">Faible priorité: 3. Haute priorité: 1.</small>
+    </div>
+
+	<div class="col-lg-12 mb-3">
+        {% for cat in contact.categories %}
+            <span class="badge badge-{{ cat.color }}">{{ cat.label }}</span>
+        {% endfor %}
+    </div>
+</div>
+
+    <a class="btn btn-info" href="{{ path('contact_contact_index') }}">Retour à la liste</a>
+{% endblock %}

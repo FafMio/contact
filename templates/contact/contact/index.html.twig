@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Contacts{% endblock %}
+
+{% block body %}
+    <a class="btn btn-success" href="{{ path('contact_contact_new') }}">Ajouter un Contact</a>
+    <table class="table table-hover table-responsive-sm table-responsive-md mb-4">
+		<thead>
+			<tr class="table-info">
+				<th class="align-middle font-italic" scope="col"><a href="{{ path('contact_contact_index', {what: 'firstName'}) }}">Prénom <i class="fas fa-random"></i></a></th>
+				<th class="align-middle font-italic" scope="col"><a href="{{ path('contact_contact_index', {what: 'lastName'}) }}">Nom <i class="fas fa-random"></i></a></th>
+				<th class="align-middle font-italic" scope="col"><a href="{{ path('contact_contact_index', {what: 'email'}) }}">Email <i class="fas fa-random"></i></a></th>
+				<th class="align-middle" scope="col" style="width: 35%;">Catégories</th>
+				<th class="align-middle" scope="col" style="width: 10%;">Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for contact in contacts %}
+				<tr class="table-light">
+					<td class="align-middle">{{ contact.firstName }}</td>
+					<td class="align-middle">{{ contact.lastName }}</td>
+					<td class="align-middle">{{ contact.email }}</td>
+					<td class="align-middle">
+						{% for cat in contact.categories %}
+							<span class="badge badge-{{ cat.color }}">{{ cat.label }}</span>
+						{% endfor %}
+					</td>
+					<td class="align-middle">
+						<ul class="navbar-nav">
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gérer</a>
+								<div class="dropdown-menu">
+									<a class="dropdown-item" href="{{ path('contact_contact_edit', {'id': contact.id}) }}">Modifier le contact</a>
+									<a class="dropdown-item" href="{{ path('contact_contact_show', {'id': contact.id}) }}">Voir le contact</a>
+									{{ include('contact/contact/_delete_form.html.twig') }}
+								</div>
+							</li>
+						</ul>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td class="table-warning" colspan="5">Aucune donnée trouvée</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

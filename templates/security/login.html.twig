@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connectez-vous
+{% endblock %}
+
+{% block body %}
+
+	{% if app.user %}
+		<div class="mb-3">
+			Vous êtes déjà connecté.
+			{{ app.user.username }},
+			<a href="{{ path('app_logout') }}" class="text-danger">Me déconnecter</a>
+		</div>
+	{% else %}
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-dismissible alert-danger">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <h4 class="alert-heading">Erreur !</h4>
+                    <p class="mb-0">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+                </div>
+            {% endif %}
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <div class="form-group mb-3">
+                <label for="inputEmail">Email</label>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control {% if error and " email could not be found." in error.messagekey %}is-invalid{% endif %}" required autofocus>
+                {% if error and "Email could not be found." in error.messagekey %}
+                    <div class="invalid-feedback">Cette adresse e-mail n'existe pas.</div>
+                {% endif %}
+            
+            </div>
+            <div class="form-group mb-3">
+                   <label for="inputPassword">Mot de passe</label>
+                   <input type="password" name="password" id="inputPassword" class="form-control {% if error and " invalid credentials." in error.messagekey %}is-invalid{% endif %}" required>
+                   {% if error and "Invalid credentials." in error.messagekey %}
+                       <div class="invalid-feedback">Mot de passe incorrect.</div>
+                   {% endif %}
+               </div>
+
+                <div class="form-group mb-3">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch1" name="_remember_me" name="_remember_me" name="_remember_me">
+                        <label class="custom-control-label" for="customSwitch1">Se souvenir de moi</label>
+                    </div>
+                </div>
+
+                <button class="btn btn-success" type="submit">Me connecter</button>
+            </form>
+        {% endif %}
+	{% endblock %}

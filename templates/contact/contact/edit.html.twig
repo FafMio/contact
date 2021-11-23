@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier un Contact - {{ contact.firstName }} {{ contact.lastName }}{% endblock %}
+
+{% block body %}
+    {{ include('contact/contact/_form.html.twig', {'button_label': 'Modifier'}) }}
+{% endblock %}
